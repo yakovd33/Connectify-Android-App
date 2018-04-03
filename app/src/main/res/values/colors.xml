@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#373447</color>
+    <color name="colorPrimaryDark">#312e3f</color>
+    <color name="colorAccent">#b9b5cc</color>
+    <color name="secondary">#bcc5cc</color>
+    <color name="ocean">#25a0f4</color>
+    <color name="background">#373447</color>
+    <color name="darkText">#8e8e8e</color>
+    <color name="darkerText">#5e5a71</color>
+    <color name="inputColor">#b9b5cc</color>
+
+    <color name="danger">#FF0000</color>
+
+    <!-- Navigation colors -->
+    <color name="navBg">#312e3f</color>
+    <color name="navItemBg">#24222e</color>
+    <color name="navIconTint">#312e3f</color>
+    <color name="navTextColor">#868298</color>
+</resources>
