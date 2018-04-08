@@ -1,6 +1,9 @@
 package android.connectify.com.connectify;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -9,13 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONObject;
+
 public class MainActivity extends SidebarMenuActivity {
+    SettingsHelper settingsHelper = new SettingsHelper(this);
+    LoginHelper loginHelper = new LoginHelper(this);
+
+    public static final int INITIALIZATION_API_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Check if logged
-        LoginHelper loginHelper = new LoginHelper(this);
         //loginHelper.login("440E759A46EEC4A1C5CB9DCAC0B9F2AA");
 
         if (loginHelper.isLogged()) {

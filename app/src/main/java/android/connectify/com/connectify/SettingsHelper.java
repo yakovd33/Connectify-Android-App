@@ -88,6 +88,22 @@ public class SettingsHelper {
         db.close();
     }
 
+    public boolean is_initialized () {
+        return (this.getValueByName("device_hash") != "");
+    }
+
+    public void initialize (String device_hash, String device_name) {
+        this.add("initialized", "1");
+        this.add("device_name", device_hash);
+        this.add("device_hash", device_hash);
+    }
+
+    public void uninitialize () {
+        this.delete("initialized");
+        this.delete("device_name");
+        this.delete("device_hash");
+    }
+
     private String getTimestamp () {
         return new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss", Locale.US).format(new Date());
     }

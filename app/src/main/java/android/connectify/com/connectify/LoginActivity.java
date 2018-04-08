@@ -18,9 +18,12 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity implements apiActivity {
+    SettingsHelper settingsHelper = new SettingsHelper(this);
+    LoginHelper loginHelper = new LoginHelper(this);
+    private static final int INITIALIZATION_API_CODE = 2;
+
     EditText emailEt, passwordEt;
     Button loginBtn;
-    LoginHelper loginHelper = new LoginHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +72,13 @@ public class LoginActivity extends AppCompatActivity implements apiActivity {
                 JSONObject jsonObject = new JSONObject(response);
                 if (jsonObject.getBoolean("success")) {
                     // Login successful
-                    loginHelper.login(jsonObject.getString("login_hash"));
+                    loginHelper.logout();
+                    loginHelper.login(jsonObject.getString("login_hash"), jsonObject.getInt("user_id"));
+                    initialize_device(LoginActivity.this);
                     finish();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(i);
+                    Toast.makeText(this, "You're logged in.", Toast.LENGTH_LONG).show();
                 } else {
                     if (jsonObject.getBoolean("empty_fields")) {
                         Toast.makeText(this, "Don't leave any fields empty.", Toast.LENGTH_LONG).show();
@@ -87,6 +93,25 @@ public class LoginActivity extends AppCompatActivity implements apiActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        if (code == INITIALIZATION_API_CODE) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                settingsHelper.initialize(jsonObject.getString("hash"), android.os.Build.MODEL);
+                Log.i("fuck", response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void initialize_device (apiActivity activity) {
+        if (loginHelper.isLogged() && !settingsHelper.is_initialized()) {
+            Uri.Builder builder = new Uri.Builder().appendQueryParameter("login_hash", loginHelper.getLoginHash()).appendQueryParameter("name", android.os.Build.MODEL).appendQueryParameter("ip", "127.0.0.1");
+            String query = builder.build().getEncodedQuery();
+            API api = new API(query, INITIALIZATION_API_CODE, activity, true);
+            api.execute("http://connectify.rf.gd/api/device_hash.php");
         }
     }
 }

@@ -21,9 +21,10 @@ public class LoginHelper {
         this.settingsHelper.delete("login_hash");
     }
 
-    public boolean login (String login_hash) {
+    public boolean login (String login_hash, int user_id) {
         if (!this.isLogged()) {
             this.settingsHelper.add("login_hash", login_hash);
+            this.settingsHelper.add("user_id", Integer.toString(user_id));
             return true;
         } else {
             return false;
