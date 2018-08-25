@@ -40,10 +40,12 @@ public class History extends SidebarMenuActivity implements apiActivity {
     int counter = 0;
     Handler h = new Handler();
     LoginHelper loginHelper = new LoginHelper(this);
+    SettingsHelper settingsHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settingsHelper = new SettingsHelper(getBaseContext());
 
         if (!loginHelper.isLogged()) {
             finish();
@@ -105,7 +107,7 @@ public class History extends SidebarMenuActivity implements apiActivity {
         Uri.Builder builder = new Uri.Builder().appendQueryParameter("login_hash", loginHelper.getLoginHash());
         String query = builder.build().getEncodedQuery();
         API api = new API(query, 1, History.this, true);
-        api.execute("http://connectify.rf.gd/api/get_copies.php");
+        api.execute(settingsHelper.getValueByName("api_path") + "/api/get_copies.php");
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

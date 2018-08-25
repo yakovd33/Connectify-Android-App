@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements apiActivity {
         Uri.Builder builder = new Uri.Builder().appendQueryParameter("email", emailEt.getText().toString()).appendQueryParameter("password", passwordEt.getText().toString());
         String query = builder.build().getEncodedQuery();
         API api = new API(query, 1, LoginActivity.this, true);
-        api.execute("http://connectify.rf.gd/api/login.php");
+        api.execute(settingsHelper.getValueByName("api_path") + "/api/login.php");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements apiActivity {
             Uri.Builder builder = new Uri.Builder().appendQueryParameter("login_hash", loginHelper.getLoginHash()).appendQueryParameter("name", android.os.Build.MODEL).appendQueryParameter("ip", "127.0.0.1");
             String query = builder.build().getEncodedQuery();
             API api = new API(query, INITIALIZATION_API_CODE, activity, true);
-            api.execute("http://connectify.rf.gd/api/device_hash.php");
+            api.execute(settingsHelper.getValueByName("api_path") + "/api/device_hash.php");
         }
     }
 }
